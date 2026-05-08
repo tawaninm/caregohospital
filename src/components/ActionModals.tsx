@@ -116,7 +116,7 @@ export function FamilyNotifyModal({ open, onClose, patientId, patientName }: Mod
   const patient = mockStore.getPatient(patientId);
   if (!open) return null;
   const handleSend = () => {
-    mockStore.notifyFamily(patientId, template, userName);
+    mockStore.notifyFamily(patientId, template, 'Custom Message', userName);
     toast.success(`แจ้งญาติ ${patient?.primaryCaregiver || 'ญาติ'} ของ ${patientName} สำเร็จ`);
     onClose();
   };

@@ -35,7 +35,7 @@ function MedicationPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">9. Medication Follow-up / ติดตามยา</h1>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {/* ลืมทานยา */}
         <div className={`rounded-xl border bg-card p-5 cursor-pointer transition-all hover:shadow-md ${filter === 'missed' || filter === 'all' ? 'border-primary ring-1 ring-primary' : ''}`} onClick={() => setFilter(filter === 'missed' ? 'all' : 'missed')}>
           <div className="flex justify-between items-start">

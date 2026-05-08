@@ -49,12 +49,12 @@ function PatientsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">คิวผู้ป่วย</h1>
           <p className="text-sm text-muted-foreground">{filtered.length} รายการ จากทั้งหมด {patients.length} รายการ</p>
         </div>
-        <button onClick={() => navigate({ to: '/register' })} className="action-btn action-btn-primary">
+        <button onClick={() => navigate({ to: '/register' })} className="action-btn action-btn-primary whitespace-nowrap self-start sm:self-auto">
           <UserPlus className="h-4 w-4" /> เพิ่มผู้ป่วยใหม่
         </button>
       </div>
@@ -68,21 +68,21 @@ function PatientsPage() {
             className="w-full rounded-lg border bg-background py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
           />
         </div>
-        <div className="flex items-center gap-2 border-l pl-3">
+        <div className="flex flex-wrap items-center gap-2 border-l-0 sm:border-l pl-0 sm:pl-3">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select value={riskFilter} onChange={e => setRiskFilter(e.target.value as RiskLevel | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none">
+          <select value={riskFilter} onChange={e => setRiskFilter(e.target.value as RiskLevel | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none flex-1 min-w-[140px]">
             <option value="all">ทุกระดับความเสี่ยง</option>
             <option value="green">🟢 ปกติ (Green)</option>
             <option value="yellow">🟡 ต้องติดตาม (Yellow)</option>
             <option value="red">🔴 เร่งด่วน (Red)</option>
           </select>
-          <select value={diseaseFilter} onChange={e => setDiseaseFilter(e.target.value as CarePlanType | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none">
+          <select value={diseaseFilter} onChange={e => setDiseaseFilter(e.target.value as CarePlanType | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none flex-1 min-w-[140px]">
             <option value="all">ทุกโรค</option>
             <option value="hypertension">🫀 ความดันโลหิตสูง</option>
             <option value="diabetes">🩸 เบาหวานชนิดที่ 2</option>
             <option value="heart_failure">❤️‍🩹 ภาวะหัวใจล้มเหลว</option>
           </select>
-          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as CaseStatus | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none">
+          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as CaseStatus | 'all')} className="rounded-lg border bg-background px-3 py-2 text-sm outline-none flex-1 min-w-[140px]">
             <option value="all">ทุกสถานะ</option>
             <option value="pending">รอติดตาม</option>
             <option value="callback">รอโทรกลับ</option>

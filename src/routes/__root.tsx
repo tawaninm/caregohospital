@@ -4,7 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { AppSidebar } from "@/components/AppSidebar";
-import { Bell, Shield, Stethoscope, Users, Pill, Headphones, Search } from "lucide-react";
+import { Bell, Shield, Stethoscope, Users, Pill, Headphones, Search, Menu } from "lucide-react";
 import { roleLabels } from "@/lib/mock-data";
 import type { UserRole } from "@/lib/mock-data";
 import { BotnoiChat } from "@/components/BotnoiChat";
@@ -86,6 +86,7 @@ function AppLayout() {
   const currentPath = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const unreadCount = useSyncExternalStore(mockStore.subscribe, mockStore.getUnreadCount, mockStore.getUnreadCount);
 
   useEffect(() => {
@@ -102,13 +103,16 @@ function AppLayout() {
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-      <AppSidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <AppSidebar mobileOpen={mobileMenuOpen} setMobileOpen={setMobileMenuOpen} />
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         {/* Top bar matching reference screenshots */}
-        <header className="flex h-14 items-center justify-between border-b bg-card px-6 shrink-0">
-          <div className="flex items-center gap-4">
-            <span className="text-lg font-bold text-primary">CareGo Platform</span>
-            <span className="hidden md:block text-sm text-muted-foreground">ศูนย์ติดตามผู้ป่วยแบบเรียลไทม์</span>
+        <header className="flex h-14 items-center justify-between border-b bg-card px-4 md:px-6 shrink-0">
+          <div className="flex items-center gap-2 md:gap-4">
+            <button className="md:hidden p-2 -ml-2 rounded-lg hover:bg-muted" onClick={() => setMobileMenuOpen(true)}>
+              <Menu className="h-5 w-5" />
+            </button>
+            <span className="text-lg font-bold text-primary truncate">CareGo Platform</span>
+            <span className="hidden md:block text-sm text-muted-foreground truncate">ศูนย์ติดตามผู้ป่วยแบบเรียลไทม์</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-1.5">
@@ -136,7 +140,7 @@ function AppLayout() {
             </div>
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto bg-background p-6">
+        <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6 min-w-0">
           <Outlet />
         </main>
       </div>

@@ -128,7 +128,7 @@ function ReportsPage() {
           <h3 className="section-title">ปัญหาการใช้ยา</h3>
           <ResponsiveContainer width="100%" height={220}>
             <PieChart>
-              <Pie data={medData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={4} dataKey="count" label={({ name, count }) => `${name}: ${count}`}>
+              <Pie data={medData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={4} dataKey="count" label={({ name, value }) => `${name}: ${value}`}>
                 <Cell fill="#4CAF50" />
                 <Cell fill="#FFC107" />
                 <Cell fill="#F44336" />

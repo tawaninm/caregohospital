@@ -36,7 +36,7 @@ function PatientDetailPage() {
   return (
     <div className="max-w-[1200px] mx-auto pb-12">
       {/* Header matching 5.png */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-2xl font-bold text-foreground">{patient.name}</h1>
@@ -46,7 +46,7 @@ function PatientDetailPage() {
             HN: {patient.hn} • อายุ: {patient.age} ปี • เพศ: {patient.gender}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           <button onClick={() => setCallModalOpen(true)} className="action-btn bg-teal-light/50 text-teal hover:bg-teal-light">
             <Phone className="h-4 w-4" /> โทรกลับ
           </button>

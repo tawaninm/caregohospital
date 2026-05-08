@@ -39,13 +39,13 @@ function DashboardPage() {
 
   return (
     <div className="max-w-[1440px] mx-auto">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-primary">CareGo Platform</h1>
           <p className="text-lg font-semibold border-b-2 border-primary inline-block pb-1 mt-1">ศูนย์ติดตามผู้ป่วยแบบเรียลไทม์</p>
         </div>
-        <div className="flex gap-4">
-          <select className="rounded-lg border px-4 py-2 text-sm bg-card"><option>All Departments</option></select>
+        <div className="flex flex-wrap gap-2 md:gap-4">
+          <select className="rounded-lg border px-3 py-2 text-sm bg-card flex-1 min-w-[140px]"><option>All Departments</option></select>
           <select className="rounded-lg border px-4 py-2 text-sm bg-card"><option>All Care Plans</option></select>
           <select className="rounded-lg border px-4 py-2 text-sm bg-card"><option>All Risk Levels</option></select>
           <button className="rounded-lg border bg-muted px-4 py-2 text-sm font-medium flex items-center gap-2 hover:bg-muted/80">
@@ -55,16 +55,16 @@ function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard title="TOTAL PATIENTS" value={total} trend="+12 from yesterday" icon={Users} variant="teal" onClick={() => navigate({ to: '/patients' })} />
         <StatCard title="STABLE (GREEN)" value={green} trend="Routine monitoring" icon={ShieldCheck} variant="green" onClick={() => navigate({ to: '/patients' })} />
         <StatCard title="WATCH (YELLOW)" value={yellow} trend="Needs attention soon" icon={AlertTriangle} variant="yellow" onClick={() => navigate({ to: '/patients' })} />
         <StatCard title="CRITICAL (RED)" value={red} trend="Immediate action required" icon={ShieldAlert} variant="red" onClick={() => navigate({ to: '/patients' })} />
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Priority Queue & Agents */}
-        <div className="col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6">
           <div className="rounded-xl border bg-card overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b">
               <h2 className="text-lg font-semibold">Real-time Risk Queue</h2>
