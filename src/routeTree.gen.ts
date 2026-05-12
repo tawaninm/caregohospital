@@ -12,19 +12,28 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PatientsRouteImport } from './routes/patients'
 import { Route as PatchLogRouteImport } from './routes/patch-log'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MedicationRouteImport } from './routes/medication'
 import { Route as FamilyRouteImport } from './routes/family'
+import { Route as ElderProfilesRouteImport } from './routes/elder-profiles'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as CarePlansRouteImport } from './routes/care-plans'
+import { Route as CallHistoryRouteImport } from './routes/call-history'
+import { Route as BotSettingsRouteImport } from './routes/bot-settings'
+import { Route as BillingRouteImport } from './routes/billing'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
+import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as AiFollowupRouteImport } from './routes/ai-followup'
 import { Route as AiAgentsRouteImport } from './routes/ai-agents'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PatientsIndexRouteImport } from './routes/patients.index'
 import { Route as PatientsPatientIdRouteImport } from './routes/patients.$patientId'
+import { Route as ElderProfilesElderIdRouteImport } from './routes/elder-profiles.$elderId'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -41,6 +50,11 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PatientsRoute = PatientsRouteImport.update({
   id: '/patients',
   path: '/patients',
@@ -49,6 +63,11 @@ const PatientsRoute = PatientsRouteImport.update({
 const PatchLogRoute = PatchLogRouteImport.update({
   id: '/patch-log',
   path: '/patch-log',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MedicationRoute = MedicationRouteImport.update({
@@ -61,9 +80,19 @@ const FamilyRoute = FamilyRouteImport.update({
   path: '/family',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ElderProfilesRoute = ElderProfilesRouteImport.update({
+  id: '/elder-profiles',
+  path: '/elder-profiles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CasesRoute = CasesRouteImport.update({
@@ -76,9 +105,29 @@ const CarePlansRoute = CarePlansRouteImport.update({
   path: '/care-plans',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CallHistoryRoute = CallHistoryRouteImport.update({
+  id: '/call-history',
+  path: '/call-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BotSettingsRoute = BotSettingsRouteImport.update({
+  id: '/bot-settings',
+  path: '/bot-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BillingRoute = BillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppointmentsRoute = AppointmentsRouteImport.update({
   id: '/appointments',
   path: '/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiFollowupRoute = AiFollowupRouteImport.update({
@@ -106,22 +155,36 @@ const PatientsPatientIdRoute = PatientsPatientIdRouteImport.update({
   path: '/$patientId',
   getParentRoute: () => PatientsRoute,
 } as any)
+const ElderProfilesElderIdRoute = ElderProfilesElderIdRouteImport.update({
+  id: '/$elderId',
+  path: '/$elderId',
+  getParentRoute: () => ElderProfilesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-agents': typeof AiAgentsRoute
   '/ai-followup': typeof AiFollowupRoute
+  '/alerts': typeof AlertsRoute
   '/appointments': typeof AppointmentsRoute
+  '/billing': typeof BillingRoute
+  '/bot-settings': typeof BotSettingsRoute
+  '/call-history': typeof CallHistoryRoute
   '/care-plans': typeof CarePlansRoute
   '/cases': typeof CasesRoute
+  '/checkout': typeof CheckoutRoute
   '/dashboard': typeof DashboardRoute
+  '/elder-profiles': typeof ElderProfilesRouteWithChildren
   '/family': typeof FamilyRoute
   '/medication': typeof MedicationRoute
+  '/onboarding': typeof OnboardingRoute
   '/patch-log': typeof PatchLogRoute
   '/patients': typeof PatientsRouteWithChildren
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
   '/settings': typeof SettingsRoute
+  '/elder-profiles/$elderId': typeof ElderProfilesElderIdRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/patients/': typeof PatientsIndexRoute
 }
@@ -129,16 +192,25 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-agents': typeof AiAgentsRoute
   '/ai-followup': typeof AiFollowupRoute
+  '/alerts': typeof AlertsRoute
   '/appointments': typeof AppointmentsRoute
+  '/billing': typeof BillingRoute
+  '/bot-settings': typeof BotSettingsRoute
+  '/call-history': typeof CallHistoryRoute
   '/care-plans': typeof CarePlansRoute
   '/cases': typeof CasesRoute
+  '/checkout': typeof CheckoutRoute
   '/dashboard': typeof DashboardRoute
+  '/elder-profiles': typeof ElderProfilesRouteWithChildren
   '/family': typeof FamilyRoute
   '/medication': typeof MedicationRoute
+  '/onboarding': typeof OnboardingRoute
   '/patch-log': typeof PatchLogRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
   '/settings': typeof SettingsRoute
+  '/elder-profiles/$elderId': typeof ElderProfilesElderIdRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/patients': typeof PatientsIndexRoute
 }
@@ -147,17 +219,26 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-agents': typeof AiAgentsRoute
   '/ai-followup': typeof AiFollowupRoute
+  '/alerts': typeof AlertsRoute
   '/appointments': typeof AppointmentsRoute
+  '/billing': typeof BillingRoute
+  '/bot-settings': typeof BotSettingsRoute
+  '/call-history': typeof CallHistoryRoute
   '/care-plans': typeof CarePlansRoute
   '/cases': typeof CasesRoute
+  '/checkout': typeof CheckoutRoute
   '/dashboard': typeof DashboardRoute
+  '/elder-profiles': typeof ElderProfilesRouteWithChildren
   '/family': typeof FamilyRoute
   '/medication': typeof MedicationRoute
+  '/onboarding': typeof OnboardingRoute
   '/patch-log': typeof PatchLogRoute
   '/patients': typeof PatientsRouteWithChildren
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
   '/settings': typeof SettingsRoute
+  '/elder-profiles/$elderId': typeof ElderProfilesElderIdRoute
   '/patients/$patientId': typeof PatientsPatientIdRoute
   '/patients/': typeof PatientsIndexRoute
 }
@@ -167,17 +248,26 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-agents'
     | '/ai-followup'
+    | '/alerts'
     | '/appointments'
+    | '/billing'
+    | '/bot-settings'
+    | '/call-history'
     | '/care-plans'
     | '/cases'
+    | '/checkout'
     | '/dashboard'
+    | '/elder-profiles'
     | '/family'
     | '/medication'
+    | '/onboarding'
     | '/patch-log'
     | '/patients'
+    | '/pricing'
     | '/register'
     | '/reports'
     | '/settings'
+    | '/elder-profiles/$elderId'
     | '/patients/$patientId'
     | '/patients/'
   fileRoutesByTo: FileRoutesByTo
@@ -185,16 +275,25 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-agents'
     | '/ai-followup'
+    | '/alerts'
     | '/appointments'
+    | '/billing'
+    | '/bot-settings'
+    | '/call-history'
     | '/care-plans'
     | '/cases'
+    | '/checkout'
     | '/dashboard'
+    | '/elder-profiles'
     | '/family'
     | '/medication'
+    | '/onboarding'
     | '/patch-log'
+    | '/pricing'
     | '/register'
     | '/reports'
     | '/settings'
+    | '/elder-profiles/$elderId'
     | '/patients/$patientId'
     | '/patients'
   id:
@@ -202,17 +301,26 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-agents'
     | '/ai-followup'
+    | '/alerts'
     | '/appointments'
+    | '/billing'
+    | '/bot-settings'
+    | '/call-history'
     | '/care-plans'
     | '/cases'
+    | '/checkout'
     | '/dashboard'
+    | '/elder-profiles'
     | '/family'
     | '/medication'
+    | '/onboarding'
     | '/patch-log'
     | '/patients'
+    | '/pricing'
     | '/register'
     | '/reports'
     | '/settings'
+    | '/elder-profiles/$elderId'
     | '/patients/$patientId'
     | '/patients/'
   fileRoutesById: FileRoutesById
@@ -221,14 +329,22 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiAgentsRoute: typeof AiAgentsRoute
   AiFollowupRoute: typeof AiFollowupRoute
+  AlertsRoute: typeof AlertsRoute
   AppointmentsRoute: typeof AppointmentsRoute
+  BillingRoute: typeof BillingRoute
+  BotSettingsRoute: typeof BotSettingsRoute
+  CallHistoryRoute: typeof CallHistoryRoute
   CarePlansRoute: typeof CarePlansRoute
   CasesRoute: typeof CasesRoute
+  CheckoutRoute: typeof CheckoutRoute
   DashboardRoute: typeof DashboardRoute
+  ElderProfilesRoute: typeof ElderProfilesRouteWithChildren
   FamilyRoute: typeof FamilyRoute
   MedicationRoute: typeof MedicationRoute
+  OnboardingRoute: typeof OnboardingRoute
   PatchLogRoute: typeof PatchLogRoute
   PatientsRoute: typeof PatientsRouteWithChildren
+  PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
   ReportsRoute: typeof ReportsRoute
   SettingsRoute: typeof SettingsRoute
@@ -257,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/patients': {
       id: '/patients'
       path: '/patients'
@@ -269,6 +392,13 @@ declare module '@tanstack/react-router' {
       path: '/patch-log'
       fullPath: '/patch-log'
       preLoaderRoute: typeof PatchLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/medication': {
@@ -285,11 +415,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FamilyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/elder-profiles': {
+      id: '/elder-profiles'
+      path: '/elder-profiles'
+      fullPath: '/elder-profiles'
+      preLoaderRoute: typeof ElderProfilesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cases': {
@@ -306,11 +450,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarePlansRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/call-history': {
+      id: '/call-history'
+      path: '/call-history'
+      fullPath: '/call-history'
+      preLoaderRoute: typeof CallHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bot-settings': {
+      id: '/bot-settings'
+      path: '/bot-settings'
+      fullPath: '/bot-settings'
+      preLoaderRoute: typeof BotSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/billing': {
+      id: '/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof BillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/appointments': {
       id: '/appointments'
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AppointmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-followup': {
@@ -348,8 +520,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PatientsPatientIdRouteImport
       parentRoute: typeof PatientsRoute
     }
+    '/elder-profiles/$elderId': {
+      id: '/elder-profiles/$elderId'
+      path: '/$elderId'
+      fullPath: '/elder-profiles/$elderId'
+      preLoaderRoute: typeof ElderProfilesElderIdRouteImport
+      parentRoute: typeof ElderProfilesRoute
+    }
   }
 }
+
+interface ElderProfilesRouteChildren {
+  ElderProfilesElderIdRoute: typeof ElderProfilesElderIdRoute
+}
+
+const ElderProfilesRouteChildren: ElderProfilesRouteChildren = {
+  ElderProfilesElderIdRoute: ElderProfilesElderIdRoute,
+}
+
+const ElderProfilesRouteWithChildren = ElderProfilesRoute._addFileChildren(
+  ElderProfilesRouteChildren,
+)
 
 interface PatientsRouteChildren {
   PatientsPatientIdRoute: typeof PatientsPatientIdRoute
@@ -369,14 +560,22 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiAgentsRoute: AiAgentsRoute,
   AiFollowupRoute: AiFollowupRoute,
+  AlertsRoute: AlertsRoute,
   AppointmentsRoute: AppointmentsRoute,
+  BillingRoute: BillingRoute,
+  BotSettingsRoute: BotSettingsRoute,
+  CallHistoryRoute: CallHistoryRoute,
   CarePlansRoute: CarePlansRoute,
   CasesRoute: CasesRoute,
+  CheckoutRoute: CheckoutRoute,
   DashboardRoute: DashboardRoute,
+  ElderProfilesRoute: ElderProfilesRouteWithChildren,
   FamilyRoute: FamilyRoute,
   MedicationRoute: MedicationRoute,
+  OnboardingRoute: OnboardingRoute,
   PatchLogRoute: PatchLogRoute,
   PatientsRoute: PatientsRouteWithChildren,
+  PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
   ReportsRoute: ReportsRoute,
   SettingsRoute: SettingsRoute,

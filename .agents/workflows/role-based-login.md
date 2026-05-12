@@ -1,25 +1,17 @@
-# Workflow: Role-Based Login
+# Workflow: VoiceMed Family Auth
 
-Purpose: make the Login role selector functional in prototype mode.
+Purpose: keep prototype auth simple for family users.
 
-## Steps
+Steps:
 
-1. Inspect current auth/login implementation.
-2. Identify where routing/session state is handled.
-3. Create or update role types: Admin, Nurse, Doctor, Pharmacist, Call Center.
-4. Store selected role in session/local state for prototype.
-5. Route each role to correct dashboard or role landing page.
-6. Filter sidebar menus by role.
-7. Show role badge in top bar.
-8. Show logged-in user in sidebar footer.
-9. Add safe fallback if role is missing.
-10. Test each role manually.
+1. Inspect `src/lib/auth-context.tsx`.
+2. Use `owner`, `caregiver`, `viewer`.
+3. Public pages remain accessible without auth.
+4. Protected pages redirect to landing if logged out.
+5. Demo CTA logs in as `owner`.
 
-## Acceptance Criteria
+Acceptance:
 
-- Selecting each role changes dashboard or role landing page.
-- Sidebar menus are different by role.
-- Doctor does not see Settings or Care Plan editing.
-- Pharmacist sees medication-focused pages.
-- Call Center does not see clinical action pages.
-- Admin sees all menus including Patch Log / อัปเดต.
+- Landing is public.
+- Checkout can start trial and go onboarding.
+- Dashboard shows family account context.

@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Activity, CheckCircle2, FileText, GitBranch, Info, ShieldCheck } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, CheckCircle2, FileText, GitBranch, Info } from "lucide-react";
 import { APP_VERSION, latestPatchLog, patchLogs } from "@/lib/patch-log";
 
 export const Route = createFileRoute("/patch-log")({
@@ -18,130 +18,102 @@ const categoryLabel = {
 
 function PatchLogPage() {
   return (
-    <div className="mx-auto max-w-[1440px] space-y-6">
-      <section className="overflow-hidden rounded-xl border bg-card">
-        <div className="grid gap-6 p-6 lg:grid-cols-[1.5fr_1fr]">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-secondary px-3 py-1 text-xs font-bold text-primary">
-              <GitBranch className="h-3.5 w-3.5" />
-              CareGo Release Notes
-            </div>
+    <main className="vm-public-shell px-5 py-8 md:px-10">
+      <div className="mx-auto max-w-[1200px] space-y-6">
+        <Link to="/" className="vm-secondary-btn w-fit py-2">
+          <ArrowLeft className="h-4 w-4" />
+          กลับหน้าแรก
+        </Link>
+
+        <section className="rounded-[2rem] vm-glass p-6 md:p-8">
+          <span className="vm-pill">
+            <GitBranch className="h-3.5 w-3.5" />
+            VoiceMed Release Notes
+          </span>
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                รายการอัปเดตระบบ
-              </h1>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-                ประวัติการเปลี่ยนแปลงสำหรับผู้ดูแลระบบ ครอบคลุมเวอร์ชัน เอกสารที่อัปเดต
-                ไฟล์แอปที่เปลี่ยน สถานะตรวจสอบ และสิ่งที่ยังต้องติดตาม
+              <h1 className="text-4xl font-extrabold">รายการอัปเดตระบบ</h1>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+                ประวัติการเปลี่ยนแปลง เวอร์ชัน เอกสาร ไฟล์แอป และสถานะ verification สำหรับ VoiceMed
               </p>
             </div>
-          </div>
-
-          <div className="rounded-lg border bg-secondary/70 p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.05em] text-muted-foreground">
-              เวอร์ชันปัจจุบัน
-            </p>
-            <div className="mt-3 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Activity className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-primary">{APP_VERSION}</p>
-                <p className="text-sm text-muted-foreground">อัปเดตล่าสุด {latestPatchLog.date}</p>
-              </div>
+            <div className="rounded-3xl bg-slate-950 p-5 text-white">
+              <p className="text-xs text-white/60">เวอร์ชันปัจจุบัน</p>
+              <p className="mt-1 text-4xl font-extrabold">{APP_VERSION}</p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-xl border bg-card p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.05em] text-muted-foreground">
-            อัปเดตล่าสุด
-          </p>
-          <p className="mt-2 text-lg font-semibold">{latestPatchLog.title}</p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">{latestPatchLog.summary}</p>
-        </div>
-        <div className="rounded-xl border bg-card p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.05em] text-muted-foreground">
-            สถานะ
-          </p>
-          <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-risk-green-bg px-3 py-1 text-sm font-semibold text-risk-green">
-            <CheckCircle2 className="h-4 w-4" />
-            {latestPatchLog.status}
-          </div>
-          <p className="mt-3 text-sm text-muted-foreground">{latestPatchLog.buildResult}</p>
-        </div>
-        <div className="rounded-xl border bg-card p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.05em] text-muted-foreground">
-            ประเภท
-          </p>
-          <div className="mt-3 inline-flex items-center gap-2 rounded-full border bg-secondary px-3 py-1 text-sm font-semibold text-primary">
-            <ShieldCheck className="h-4 w-4" />
-            {categoryLabel[latestPatchLog.category]}
-          </div>
-          <p className="mt-3 text-sm text-muted-foreground">Docs / UI / Feature / Safety</p>
-        </div>
-      </section>
+        <section className="grid gap-4 md:grid-cols-3">
+          <InfoCard label="อัปเดตล่าสุด" value={latestPatchLog.title} />
+          <InfoCard label="วันที่" value={latestPatchLog.date} />
+          <InfoCard label="สถานะ" value={latestPatchLog.status ?? "Needs Review"} />
+        </section>
 
-      <section className="rounded-xl border bg-card">
-        <div className="border-b p-5">
-          <h2 className="text-lg font-semibold">ประวัติการอัปเดต</h2>
-        </div>
-        <div className="divide-y">
+        <section className="space-y-5">
           {patchLogs.map((entry) => (
-            <article key={entry.version} className="grid gap-5 p-5 lg:grid-cols-[240px_1fr]">
-              <div>
-                <p className="text-2xl font-bold text-primary">{entry.version}</p>
-                <p className="mt-1 text-sm text-muted-foreground">วันที่ {entry.date}</p>
-                <span className="mt-3 inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-bold text-primary">
-                  {categoryLabel[entry.category]}
-                </span>
-              </div>
-              <div className="space-y-5">
+            <article key={entry.version} className="rounded-[2rem] vm-glass p-5">
+              <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
                 <div>
-                  <h3 className="text-lg font-semibold">{entry.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{entry.summary}</p>
+                  <p className="text-3xl font-extrabold vm-gradient-text">{entry.version}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">วันที่ {entry.date}</p>
+                  <span className="mt-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+                    {categoryLabel[entry.category]}
+                  </span>
                 </div>
-
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <FileList title="ไฟล์ Markdown ที่อัปเดต" files={entry.markdownFiles ?? []} />
-                  <FileList title="ไฟล์แอปที่อัปเดต" files={entry.appFiles ?? []} />
-                </div>
-
-                <div className="rounded-lg border bg-secondary/40 p-4">
-                  <div className="flex items-start gap-3">
-                    <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      <p>
-                        <span className="font-semibold text-foreground">Build/Lint:</span>{" "}
-                        {entry.buildResult}
-                      </p>
-                      {entry.notes?.map((note) => (
-                        <p key={note}>{note}</p>
-                      ))}
+                <div className="space-y-5">
+                  <div>
+                    <h2 className="text-2xl font-extrabold">{entry.title}</h2>
+                    <p className="mt-2 text-sm leading-7 text-muted-foreground">{entry.summary}</p>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <FileList title="ไฟล์ Markdown ที่อัปเดต" files={entry.markdownFiles ?? []} />
+                    <FileList title="ไฟล์แอปที่อัปเดต" files={entry.appFiles ?? []} />
+                  </div>
+                  <div className="rounded-2xl bg-white/70 p-4">
+                    <div className="flex items-start gap-3">
+                      <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      <div className="text-sm leading-6 text-muted-foreground">
+                        <p>
+                          <span className="font-bold text-foreground">Build/Lint:</span>{" "}
+                          {entry.buildResult}
+                        </p>
+                        {entry.notes?.map((note) => (
+                          <p key={note}>• {note}</p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[2rem] vm-glass-soft p-5">
+      <p className="text-xs font-bold text-muted-foreground">{label}</p>
+      <p className="mt-2 font-extrabold">{value}</p>
+      <CheckCircle2 className="mt-4 h-5 w-5 text-teal" />
     </div>
   );
 }
 
 function FileList({ title, files }: { title: string; files: string[] }) {
   return (
-    <div className="rounded-lg border bg-background/70 p-4">
-      <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
+    <div className="rounded-2xl border bg-white/70 p-4">
+      <div className="mb-3 flex items-center gap-2 text-sm font-bold">
         <FileText className="h-4 w-4 text-primary" />
         {title}
       </div>
-      <ul className="max-h-64 space-y-1 overflow-auto pr-1 text-xs leading-5 text-muted-foreground">
+      <ul className="max-h-72 space-y-1 overflow-auto pr-1 text-xs leading-5 text-muted-foreground">
         {files.map((file) => (
-          <li key={file} className="rounded bg-card px-2 py-1 font-mono">
+          <li key={file} className="rounded-xl bg-white px-2 py-1 font-mono">
             {file}
           </li>
         ))}

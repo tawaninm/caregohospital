@@ -1,81 +1,68 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import type { UserRole } from "./mock-data";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { FamilyRole } from "./voicemed-data";
+import { roleLabels } from "./voicemed-data";
 
 interface AuthState {
   isLoggedIn: boolean;
-  role: UserRole;
+  role: FamilyRole;
   userName: string;
 }
 
 interface AuthContextType extends AuthState {
-  login: (role: UserRole) => void;
+  login: (role?: FamilyRole) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-const STORAGE_KEY = "carego_auth";
-
-const roleNames: Record<UserRole, string> = {
-  admin: "ผู้ดูแลระบบ",
-  nurse: "พว.สมหญิง",
-  doctor: "นพ.วิชัย",
-  pharmacist: "ภก.สมศรี",
-  callcenter: "คุณสมใจ",
-};
-
-const defaultAuth: AuthState = { isLoggedIn: false, role: "nurse", userName: "" };
+const STORAGE_KEY = "voicemed_auth";
+const defaultAuth: AuthState = { isLoggedIn: false, role: "owner", userName: "" };
 
 function loadAuth(): AuthState {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved) as AuthState;
-      if (parsed.isLoggedIn && parsed.role && parsed.userName) {
-        return parsed;
-      }
-    }
+    if (!saved) return defaultAuth;
+    const parsed = JSON.parse(saved) as AuthState;
+    if (parsed.isLoggedIn && parsed.role && parsed.userName) return parsed;
   } catch {
-    // ignore corrupted storage
+    // Ignore corrupted prototype auth.
   }
   return defaultAuth;
 }
 
 function saveAuth(state: AuthState) {
   try {
-    if (state.isLoggedIn) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } else {
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    if (state.isLoggedIn) localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    else localStorage.removeItem(STORAGE_KEY);
   } catch {
-    // ignore storage errors
+    // Ignore storage errors.
   }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [auth, setAuth] = useState<AuthState>(loadAuth);
 
-  // Sync to localStorage whenever auth changes
   useEffect(() => {
     saveAuth(auth);
   }, [auth]);
 
-  const login = (role: UserRole) => {
-    const newAuth: AuthState = { isLoggedIn: true, role, userName: roleNames[role] };
-    setAuth(newAuth);
+  const login = (role: FamilyRole = "owner") => {
+    setAuth({ isLoggedIn: true, role, userName: `คุณภัทร · ${roleLabels[role]}` });
   };
 
   const logout = () => {
     setAuth(defaultAuth);
-    localStorage.removeItem(STORAGE_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore
+    }
   };
 
   return <AuthContext.Provider value={{ ...auth, login, logout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  return context;
 }

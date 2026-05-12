@@ -1,57 +1,36 @@
 # Project Structure
 
-## Current Prototype
+Current repository structure remains a single Vite/TanStack/React app.
 
-```text
+```txt
 src/
   components/
-  components/ui/
-  components/prototype/
+    AppSidebar.tsx
+    BotnoiChat.tsx
+    CompatibilityBridge.tsx
   lib/
     auth-context.tsx
-    mock-data.ts
-    mock-store.ts
     patch-log.ts
+    voicemed-data.ts
+    voicemed-store.ts
   routes/
     index.tsx
+    pricing.tsx
+    checkout.tsx
+    onboarding.tsx
     dashboard.tsx
-    patch-log.tsx
-    patients.tsx
-    patients.index.tsx
-    patients.$patientId.tsx
-    cases.tsx
-    ai-followup.tsx
+    elder-profiles.tsx
+    elder-profiles.$elderId.tsx
+    bot-settings.tsx
     care-plans.tsx
-    medication.tsx
-    appointments.tsx
-    family.tsx
+    call-history.tsx
+    alerts.tsx
     reports.tsx
-    ai-agents.tsx
+    billing.tsx
     settings.tsx
-  styles.css
+    patch-log.tsx
 ```
 
-The current app is Vite + TanStack Router + React + TypeScript. Keep this structure working until an explicit migration is requested.
+Compatibility routes exist for old CareGo paths and should guide users to VoiceMed pages.
 
-## Future Target
-
-```text
-apps/web/app
-apps/web/components
-apps/web/features
-apps/web/lib
-apps/api/src/modules
-apps/api/src/middleware
-apps/api/src/routes
-apps/api/src/services
-apps/api/src/db
-packages/shared/src
-packages/ui
-prisma
-docs
-.agents
-```
-
-## Migration Guidance
-
-Prefer incremental feature folders inside src first. Move shared contracts into src/lib/types or packages/shared only when the project is ready. Keep mock data clearly named and replace it gradually with API clients plus safe fallbacks.
+Future backend/monorepo work may introduce `apps/api`, `packages/shared`, and Prisma, but do not migrate architecture in the current prototype unless requested.

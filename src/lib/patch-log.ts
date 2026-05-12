@@ -11,9 +11,64 @@ export type PatchLogEntry = {
   notes?: string[];
 };
 
-export const APP_VERSION = "v0.1.0";
+export const APP_VERSION = "v0.2.0";
 
 export const patchLogs: PatchLogEntry[] = [
+  {
+    version: "v0.2.0",
+    date: "2026-05-12",
+    category: "Feature",
+    title: "VoiceMed B2C subscription platform pivot",
+    summary:
+      "Rebranded the prototype from CareGo Hospital Platform into VoiceMed, a B2C AI Voice Companion subscription platform for family caregivers. Added landing, pricing, mock checkout, onboarding, family dashboard, elder profiles, bot settings, call history, alerts, reports, billing, and updated documentation.",
+    markdownFiles: [
+      "README.md",
+      "AGENTS.md",
+      "GEMINI.md",
+      "AI_AGENT_README.md",
+      "DESIGN.md",
+      ".agents/rules/*",
+      ".agents/workflows/*",
+      "docs/API_CONTRACTS.md",
+      "docs/DATA_MODEL_OVERVIEW.md",
+      "docs/PROJECT_STRUCTURE.md",
+      "docs/CHANGELOG.md",
+      "docs/PATCH_LOG.md",
+    ],
+    appFiles: [
+      "src/lib/voicemed-data.ts",
+      "src/lib/voicemed-store.ts",
+      "src/lib/auth-context.tsx",
+      "src/lib/patch-log.ts",
+      "src/routes/__root.tsx",
+      "src/routes/index.tsx",
+      "src/routes/pricing.tsx",
+      "src/routes/checkout.tsx",
+      "src/routes/onboarding.tsx",
+      "src/routes/dashboard.tsx",
+      "src/routes/elder-profiles.tsx",
+      "src/routes/elder-profiles.$elderId.tsx",
+      "src/routes/bot-settings.tsx",
+      "src/routes/call-history.tsx",
+      "src/routes/alerts.tsx",
+      "src/routes/care-plans.tsx",
+      "src/routes/reports.tsx",
+      "src/routes/billing.tsx",
+      "src/routes/settings.tsx",
+      "src/components/AppSidebar.tsx",
+      "src/components/BotnoiChat.tsx",
+      "src/styles.css",
+    ],
+    status: "Completed",
+    buildResult:
+      "Passed: npm run format, npm run lint (9 existing warnings), npm run build, local browser smoke check",
+    notes: [
+      "Payment remains mock/prototype only.",
+      "Botnoi integration is represented by safe configuration UI and existing widget; no API keys are exposed.",
+      "VoiceMed does not diagnose, prescribe, or adjust medication.",
+      "Browser smoke checked landing, pricing, checkout, and dashboard at http://127.0.0.1:5173.",
+    ],
+  },
   {
     version: "v0.1.0",
     date: "2026-05-12",
@@ -27,24 +82,9 @@ export const patchLogs: PatchLogEntry[] = [
       "AI_AGENT_README.md",
       "DESIGN.md",
       "README.md",
-      ".agents/rules/00-project-brief.md",
-      ".agents/rules/01-target-architecture.md",
-      ".agents/rules/02-frontend-ui-rules.md",
-      ".agents/rules/03-backend-api-rules.md",
-      ".agents/rules/04-database-model.md",
-      ".agents/rules/05-rbac-role-rules.md",
-      ".agents/rules/06-healthcare-ai-safety.md",
-      ".agents/rules/07-feature-map-v2.md",
-      ".agents/rules/08-implementation-checklist.md",
-      ".agents/workflows/role-based-login.md",
-      ".agents/workflows/dashboard-v2.md",
-      ".agents/workflows/api-express-setup.md",
-      ".agents/workflows/prisma-database.md",
-      "docs/API_CONTRACTS.md",
-      "docs/DATA_MODEL_OVERVIEW.md",
-      "docs/PROJECT_STRUCTURE.md",
-      "docs/CHANGELOG.md",
-      "docs/PATCH_LOG.md",
+      ".agents/rules/*",
+      ".agents/workflows/*",
+      "docs/*",
     ],
     appFiles: [
       "src/lib/patch-log.ts",
@@ -53,16 +93,11 @@ export const patchLogs: PatchLogEntry[] = [
       "src/routes/__root.tsx",
       "src/routes/index.tsx",
       "src/routes/dashboard.tsx",
-      "src/routeTree.gen.ts",
       "src/styles.css",
     ],
     status: "Completed",
-    buildResult:
-      "Passed: npm run format, npm run lint (9 warnings), npm run build, browser smoke check",
-    notes: [
-      "Prototype remains Vite/TanStack/React and mock-store based.",
-      "No backend/database migration was performed in this pass.",
-    ],
+    buildResult: "Previously passed: npm run format, npm run lint, npm run build",
+    notes: ["This version was hospital/B2B oriented and is superseded by v0.2.0."],
   },
 ];
 

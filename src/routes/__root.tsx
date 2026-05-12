@@ -1,40 +1,37 @@
 import {
-  Outlet,
-  Link,
-  createRootRoute,
   HeadContent,
+  Link,
+  Outlet,
   Scripts,
-  useRouterState,
+  createRootRoute,
   useNavigate,
+  useRouterState,
 } from "@tanstack/react-router";
-import { Toaster } from "sonner";
+import { Bell, Menu, Search, Sparkles, UserRound } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
-import appCss from "../styles.css?url";
-import { AuthProvider, useAuth } from "@/lib/auth-context";
+import { Toaster } from "sonner";
 import { AppSidebar } from "@/components/AppSidebar";
-import { Bell, Shield, Stethoscope, Users, Pill, Headphones, Search, Menu } from "lucide-react";
-import { roleLabels } from "@/lib/mock-data";
-import type { UserRole } from "@/lib/mock-data";
 import { BotnoiChat } from "@/components/BotnoiChat";
-import { NotificationDropdown } from "@/components/prototype/NotificationDropdown";
-import { mockStore } from "@/lib/mock-store";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { APP_VERSION } from "@/lib/patch-log";
+import { roleLabels } from "@/lib/voicemed-data";
+import { getAlertTone, getElderName, voiceMedStore } from "@/lib/voicemed-store";
+import appCss from "../styles.css?url";
+
+const PUBLIC_ROUTES = new Set(["/", "/pricing", "/checkout", "/patch-log"]);
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">ไม่พบหน้าที่ต้องการ</h2>
-        <p className="mt-2 text-sm text-muted-foreground">หน้าที่คุณค้นหาไม่มีอยู่ในระบบ</p>
-        <div className="mt-6">
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            กลับแดชบอร์ด
-          </Link>
-        </div>
+    <div className="vm-public-shell flex items-center justify-center px-4">
+      <div className="vm-glass max-w-md rounded-3xl p-8 text-center">
+        <p className="text-7xl font-extrabold vm-gradient-text">404</p>
+        <h1 className="mt-4 text-2xl font-bold">ไม่พบหน้าที่ต้องการ</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          หน้านี้อาจถูกย้ายระหว่างการรีแบรนด์เป็น VoiceMed
+        </p>
+        <Link to="/" className="vm-primary-btn mt-6">
+          กลับหน้าแรก
+        </Link>
       </div>
     </div>
   );
@@ -45,8 +42,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: `CareGo Hospital Platform ${APP_VERSION}` },
-      { name: "description", content: "แพลตฟอร์มติดตามดูแลผู้ป่วยอัจฉริยะ สำหรับโรงพยาบาล" },
+      { title: `VoiceMed ${APP_VERSION} · AI Voice Companion` },
+      {
+        name: "description",
+        content:
+          "VoiceMed แพลตฟอร์ม AI Voice Companion สำหรับครอบครัวที่ต้องการดูแลผู้สูงอายุผ่าน Voice bot, Chatbot, reminder และรายงานสรุป",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -85,104 +86,146 @@ function RootComponent() {
   );
 }
 
-const roleBadgeColors: Record<UserRole, string> = {
-  admin: "bg-slate-100 text-slate-700 border border-slate-300",
-  nurse: "bg-teal-light text-teal border border-teal/20",
-  doctor: "bg-blue-50 text-blue-700 border border-blue-200",
-  pharmacist: "bg-purple-50 text-purple-700 border border-purple-200",
-  callcenter: "bg-orange-50 text-orange-700 border border-orange-200",
-};
-
-const roleIcons: Record<UserRole, React.ComponentType<{ className?: string }>> = {
-  admin: Shield,
-  nurse: Users,
-  doctor: Stethoscope,
-  pharmacist: Pill,
-  callcenter: Headphones,
-};
-
 function AppLayout() {
   const { isLoggedIn, role, userName } = useAuth();
-  const currentPath = useRouterState({ select: (s) => s.location.pathname });
+  const currentPath = useRouterState({ select: (state) => state.location.pathname });
   const navigate = useNavigate();
-  const [notifOpen, setNotifOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const unreadCount = useSyncExternalStore(
-    mockStore.subscribe,
-    mockStore.getUnreadCount,
-    mockStore.getUnreadCount,
+    voiceMedStore.subscribe,
+    voiceMedStore.getUnreadCount,
+    voiceMedStore.getUnreadCount,
   );
 
+  const isPublic = PUBLIC_ROUTES.has(currentPath);
+
   useEffect(() => {
-    if (!isLoggedIn && currentPath !== "/") {
+    if (!isLoggedIn && !isPublic) {
       navigate({ to: "/" });
     }
-  }, [isLoggedIn, currentPath, navigate]);
+  }, [isLoggedIn, isPublic, navigate]);
 
-  if (!isLoggedIn || currentPath === "/") {
-    return <Outlet />;
-  }
-
-  const RoleIcon = roleIcons[role];
+  if (isPublic || !isLoggedIn) return <Outlet />;
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden bg-background">
       <AppSidebar mobileOpen={mobileMenuOpen} setMobileOpen={setMobileMenuOpen} />
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
-        {/* Top bar matching reference screenshots */}
-        <header className="flex h-14 items-center justify-between border-b bg-card px-4 md:px-6 shrink-0">
-          <div className="flex items-center gap-2 md:gap-4">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/60 bg-white/70 px-4 backdrop-blur-2xl md:px-6">
+          <div className="flex min-w-0 items-center gap-3">
             <button
-              className="md:hidden p-2 -ml-2 rounded-lg hover:bg-muted"
+              className="-ml-2 rounded-xl p-2 hover:bg-muted md:hidden"
               onClick={() => setMobileMenuOpen(true)}
+              aria-label="เปิดเมนู"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <span className="text-lg font-bold text-primary truncate">CareGo Command Center</span>
-            <span className="hidden md:block text-sm text-muted-foreground truncate">
-              ศูนย์บัญชาการ AI Care Follow-up
-            </span>
+            <div className="hidden h-10 w-10 items-center justify-center rounded-2xl vm-orb md:flex" />
+            <div className="min-w-0">
+              <p className="truncate text-lg font-extrabold vm-gradient-text">
+                VoiceMed Family Platform
+              </p>
+              <p className="hidden truncate text-xs text-muted-foreground md:block">
+                จัดการ Voice bot, Chatbot, แผนดูแล และรายงานให้ครอบครัว
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-1.5">
+
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="hidden items-center gap-2 rounded-full border bg-white/70 px-3 py-2 backdrop-blur-xl lg:flex">
               <Search className="h-4 w-4 text-muted-foreground" />
               <input
-                type="text"
-                placeholder="ค้นหา HN, ผู้ป่วย, เคสเร่งด่วน..."
-                className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none w-52"
+                className="w-56 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                placeholder="ค้นหาผู้สูงอายุ, log, alert..."
               />
             </div>
-            {/* Notification bell */}
             <div className="relative">
               <button
-                onClick={() => setNotifOpen(!notifOpen)}
-                className="relative rounded-lg p-2 hover:bg-muted transition-colors"
-                title={`${unreadCount} การแจ้งเตือน`}
+                onClick={() => setNotifOpen((open) => !open)}
+                className="relative rounded-xl border bg-white/70 p-2 backdrop-blur-xl hover:bg-white"
+                aria-label="เปิดการแจ้งเตือน"
               >
                 <Bell className="h-5 w-5 text-muted-foreground" />
                 {unreadCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-risk-red text-[10px] font-bold text-white px-1 animate-pulse">
-                    {unreadCount > 9 ? "9+" : unreadCount}
+                  <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
+                    {unreadCount}
                   </span>
                 )}
               </button>
-              <NotificationDropdown open={notifOpen} onClose={() => setNotifOpen(false)} />
+              <VoiceMedNotifications open={notifOpen} onClose={() => setNotifOpen(false)} />
             </div>
-            {/* User avatar */}
-            <div className="flex items-center gap-2">
-              <span
-                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${roleBadgeColors[role]}`}
-              >
-                <RoleIcon className="h-3.5 w-3.5" />
-                {roleLabels[role]}
-              </span>
+            <div className="hidden items-center gap-2 rounded-full border bg-white/70 px-3 py-2 text-xs font-bold text-primary backdrop-blur-xl sm:flex">
+              <UserRound className="h-4 w-4" />
+              <span>{userName || roleLabels[role]}</span>
             </div>
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto bg-background p-4 md:p-6 min-w-0">
+        <main className="min-w-0 flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>
     </div>
+  );
+}
+
+function VoiceMedNotifications({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const navigate = useNavigate();
+  const alerts = useSyncExternalStore(
+    voiceMedStore.subscribe,
+    voiceMedStore.getFamilyAlerts,
+    voiceMedStore.getFamilyAlerts,
+  ).filter((alert) => alert.status !== "resolved");
+
+  if (!open) return null;
+
+  return (
+    <>
+      <div className="fixed inset-0 z-40" onClick={onClose} />
+      <div className="absolute right-0 top-12 z-50 w-88 max-w-[calc(100vw-2rem)] overflow-hidden rounded-3xl vm-glass">
+        <div className="flex items-center justify-between border-b border-white/60 px-4 py-3">
+          <div>
+            <p className="text-sm font-bold">การแจ้งเตือนครอบครัว</p>
+            <p className="text-xs text-muted-foreground">สิ่งที่ VoiceMed แนะนำให้ครอบครัวดูต่อ</p>
+          </div>
+          <Sparkles className="h-4 w-4 text-primary" />
+        </div>
+        <div className="max-h-80 divide-y overflow-auto">
+          {alerts.length === 0 && (
+            <div className="p-6 text-center text-sm text-muted-foreground">
+              ไม่มีการแจ้งเตือนใหม่
+            </div>
+          )}
+          {alerts.map((alert) => (
+            <button
+              key={alert.id}
+              onClick={() => {
+                voiceMedStore.markAlertReviewed(alert.id);
+                navigate({ to: "/alerts" });
+                onClose();
+              }}
+              className="w-full p-4 text-left transition hover:bg-white/70"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span
+                    className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${getAlertTone(alert)}`}
+                  >
+                    {alert.severity}
+                  </span>
+                  <p className="mt-2 text-sm font-bold">{alert.title}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {getElderName(alert.elderProfileId)} · {alert.summary}
+                  </p>
+                </div>
+                {alert.status === "new" && (
+                  <span className="mt-1 h-2 w-2 rounded-full bg-primary" />
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

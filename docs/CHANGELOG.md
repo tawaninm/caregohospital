@@ -1,31 +1,45 @@
 # Changelog
 
-## v0.1.0 - 2026-05-12
+## v0.2.0 — 2026-05-12
 
 ### Added
 
-- Added AI agent instruction structure.
-- Added CareGo product rules.
-- Added healthcare AI safety rules.
-- Added RBAC documentation.
-- Added API contracts.
-- Added database model overview.
-- Added project structure guidance.
-- Added patch log documentation.
-- Added Patch / อัปเดต UI requirement and app update history data.
+- Added VoiceMed B2C landing page.
+- Added pricing, mock checkout, and onboarding flows.
+- Added family dashboard.
+- Added elder profiles and elder profile detail.
+- Added Bot Settings for Botnoi Voicebot/Chatbot prototype management.
+- Added care conversation templates.
+- Added call history with transcript/summary view.
+- Added family alerts.
+- Added reports and mock billing.
+- Added VoiceMed B2C mock data/store.
 
 ### Changed
 
-- Updated old Markdown files to match the current CareGo Hospital Platform direction.
-- Aligned documentation with the current Vite/TanStack/React prototype and future Next.js + Express + Prisma target.
-- Refreshed design guidance so DESIGN.md is the styling source of truth.
+- Rebranded visible product direction from CareGo Hospital Platform to VoiceMed.
+- Changed primary audience from hospital staff to family caregivers.
+- Updated design system to Liquid Glass + AI startup healthcare.
+- Converted old hospital routes into compatibility bridges.
+- Updated patch log to `v0.2.0`.
 
 ### Fixed
 
-- Removed or corrected outdated/conflicting instructions around architecture, AI behavior, and UI direction.
+- Removed hospital-first navigation from the primary UI.
+- Replaced unsafe clinical/hospital-first language on primary surfaces with family-safe wording.
 
 ### Notes
 
-- DESIGN.md is now the source of truth for UI design.
-- AGENTS.md is now the primary entry point for AI coding agents.
-- This version includes meaningful docs and UI additions, so the first tracked version starts at v0.1.0.
+- Payment remains mock/prototype only.
+- Botnoi integration remains configuration/widget level only; no secrets are exposed.
+- VoiceMed does not diagnose, prescribe, or adjust medication.
+
+## v0.1.0 — 2026-05-12
+
+### Added
+
+- Added AI agent documentation and CareGo hospital command-center prototype rules.
+
+### Notes
+
+- Superseded by VoiceMed B2C v0.2.0.

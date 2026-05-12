@@ -1,27 +1,24 @@
-# Data Model Overview
+# VoiceMed Data Model Overview
 
-Recommended database: PostgreSQL with Prisma.
+VoiceMed v0.2.0 separates family subscription, elderly profile, bot setup, conversation logs, alerts, and billing.
 
-CareGo separates Patient, CarePlan, FollowUpSchedule, AIConversation, RiskAssessment, Case, CaseAction, MedicationStatus, Appointment, FamilyContact, FamilyNotification, AgentConfig, AgentLog, and AuditLog.
+## Key Concepts
 
-A case is an operational hospital work item. An AI conversation is not the case itself; a case may contain many AI conversations, risk assessments, human actions, and family notifications.
+- `FamilyAccount`: payer and subscription owner.
+- `ElderProfile`: elderly person being supported.
+- `SubscriptionPlan`: monthly package.
+- `BotConfig`: Voice bot / Chatbot configuration per elder.
+- `CareTemplate`: reusable question set.
+- `CallLog`: actual voice/chat result.
+- `FamilyAlert`: item family should review.
+- `DailySummary`: family-readable summary.
+- `BillingRecord`: mock subscription history.
+- `ConsentRecord`: PDPA/voice/report consent.
 
-## Core Relationships
+## Important Boundary
 
-- Patient 1-many AIConversation
-- Patient 1-many Case
-- Patient many-1 CarePlan
-- Case 1-many CaseAction
-- Case 1-many RiskAssessment
-- Patient 1-many Appointment
-- Patient 1-many FamilyContact
-- FamilyContact 1-many FamilyNotification
-- AgentConfig 1-many AgentLog
+Do not treat every AI call as a clinical case. In VoiceMed B2C, the main work item is a family-facing alert or care task, not a hospital case.
 
-## Disease-specific Data
+## Safety
 
-Use flexible JSON fields for disease-specific values rather than many disease columns on Patient. Examples: symptoms, vitalSigns, medication adherence, appointment understanding, caregiver availability.
-
-## Seed Data
-
-The prototype should include realistic Thai demo data for 8 patients, 5 care plans, 10 AI conversations, 8 active cases, 5 medication issues, 4 appointments, 4 family contacts, 8 agent configs, and audit logs.
+Disease-specific details should remain notes or structured observations, not final medical conclusions. VoiceMed can collect, summarize, and alert; it must not diagnose or prescribe.

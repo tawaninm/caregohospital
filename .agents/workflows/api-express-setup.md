@@ -1,24 +1,17 @@
-# Workflow: Express API Setup
+# Workflow: Future Express API
 
-Purpose: create an Express.js backend API that can replace frontend mock data gradually.
+Purpose: gradually replace frontend mock data.
 
-## Steps
+Steps:
 
-1. Inspect current package manager and structure.
-2. Create apps/api or server depending on current repo layout.
-3. Add Express TypeScript setup.
-4. Add GET /api/health.
-5. Add mock routes for patients, cases, AI followups, and care plans.
-6. Add Zod validation.
-7. Add role middleware stub.
-8. Add service layer.
-9. Add audit log service stub.
-10. Connect frontend via API client but keep mock fallback.
+1. Add Express TypeScript API only when requested.
+2. Keep frontend mock fallback.
+3. Add `/api/health`.
+4. Add family account, elder profile, bot config, call log, alert, report endpoints.
+5. Validate with Zod.
+6. Authorize by family role.
 
-## Acceptance Criteria
+Acceptance:
 
-- API runs locally.
-- Frontend can call health and patients endpoint.
-- API response shape is consistent.
-- Role middleware exists even if demo-only.
-- No UI breaks if API is unavailable.
+- No UI break if API unavailable.
+- No secrets exposed.
