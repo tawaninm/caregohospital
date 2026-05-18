@@ -5,6 +5,7 @@
 The platform helps families set up a Voice bot / Chatbot flow, schedule simple check-in calls, review call logs, receive alerts, and manage subscription status from one easy-to-use caregiver dashboard.
 
 ## Core Promise
+
 "ทำงานอย่างหมดห่วง เพราะ น้องคอลใจ อยู่เคียงข้างคุณตาคุณยาย"
 
 ## Product Direction
@@ -23,7 +24,7 @@ The platform helps families set up a Voice bot / Chatbot flow, schedule simple c
 - Sonner for toast notifications
 - Mock data/store in frontend TypeScript
 
-*Note: Use `npm` for dependency management because `package-lock.json` is present.*
+_Note: Use `npm` for dependency management because `package-lock.json` is present._
 
 ## Commands
 
@@ -41,6 +42,7 @@ npm run build
 ## Healthcare AI Safety
 
 NongCallJai is an AI companion and monitoring layer. It must **never**:
+
 - Diagnose diseases.
 - Prescribe medicine.
 - Change medication doses.
@@ -49,4 +51,5 @@ NongCallJai is an AI companion and monitoring layer. It must **never**:
 - Claim certainty when information is incomplete.
 
 Serious symptoms should be phrased as a reason for family review and, when needed, a reason to contact medical professionals or the proper emergency channel.
+
 > Example safe wording: "หากอาการรุนแรง ควรติดต่อบุคลากรทางการแพทย์หรือช่องทางฉุกเฉินที่เหมาะสม"
