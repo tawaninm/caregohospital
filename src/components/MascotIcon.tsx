@@ -85,41 +85,41 @@ export type MascotVariant =
   | "qr";
 
 const MASCOT_SRC: Record<MascotVariant, string> = {
-  wave: "/Mascot Icon Logo/2.png",
-  heart: "/Mascot Icon Logo/3.png",
-  call: "/Mascot Icon Logo/LogoWeb.png",
-  point: "/Mascot Icon Logo/10.png",
-  dance: "/Mascot Icon Logo/5.png",
-  check: "/Mascot Icon Logo/11.png",
-  shield: "/Mascot Icon Logo/12.png",
-  bell: "/Mascot Icon Logo/13.png",
-  settings: "/Mascot Icon Logo/14.png",
-  phone: "/Mascot Icon Logo/15.png",
-  chat: "/Mascot Icon Logo/16.png",
-  star: "/Mascot Icon Logo/17.png",
-  link: "/Mascot Icon Logo/18.png",
-  money: "/Mascot Icon Logo/19.png",
-  people: "/Mascot Icon Logo/20.png",
-  clipboard: "/Mascot Icon Logo/21.png",
-  calendar: "/Mascot Icon Logo/22.png",
-  search: "/Mascot Icon Logo/23.png",
-  report: "/Mascot Icon Logo/24.png",
-  mic: "/Mascot Icon Logo/25.png",
-  user: "/Mascot Icon Logo/26.png",
-  download: "/Mascot Icon Logo/27.png",
-  home: "/Mascot Icon Logo/28.png",
-  log: "/Mascot Icon Logo/29.png",
-  warning: "/Mascot Icon Logo/30.png",
-  bot: "/Mascot Icon Logo/31.png",
-  happy: "/Mascot Icon Logo/32.png",
-  copy: "/Mascot Icon Logo/33.png",
-  eye: "/Mascot Icon Logo/34.png",
-  slider: "/Mascot Icon Logo/35.png",
-  send: "/Mascot Icon Logo/36.png",
-  file: "/Mascot Icon Logo/37.png",
-  pill: "/Mascot Icon Logo/38.png",
-  menu: "/Mascot Icon Logo/39.png",
-  qr: "/Mascot Icon Logo/40.png",
+  wave: "/assets/nongcalljai/mascot-icons/wave.webp",
+  heart: "/assets/nongcalljai/mascot-icons/heart.webp",
+  call: "/assets/nongcalljai/mascot-icons/call.webp",
+  point: "/assets/nongcalljai/mascot-icons/point.webp",
+  dance: "/assets/nongcalljai/mascot-icons/dance.webp",
+  check: "/assets/nongcalljai/mascot-icons/check.webp",
+  shield: "/assets/nongcalljai/mascot-icons/shield.webp",
+  bell: "/assets/nongcalljai/mascot-icons/bell.webp",
+  settings: "/assets/nongcalljai/mascot-icons/settings.webp",
+  phone: "/assets/nongcalljai/mascot-icons/phone.webp",
+  chat: "/assets/nongcalljai/mascot-icons/chat.webp",
+  star: "/assets/nongcalljai/mascot-icons/star.webp",
+  link: "/assets/nongcalljai/mascot-icons/link.webp",
+  money: "/assets/nongcalljai/mascot-icons/money.webp",
+  people: "/assets/nongcalljai/mascot-icons/people.webp",
+  clipboard: "/assets/nongcalljai/mascot-icons/clipboard.webp",
+  calendar: "/assets/nongcalljai/mascot-icons/calendar.webp",
+  search: "/assets/nongcalljai/mascot-icons/search.webp",
+  report: "/assets/nongcalljai/mascot-icons/report.webp",
+  mic: "/assets/nongcalljai/mascot-icons/mic.webp",
+  user: "/assets/nongcalljai/mascot-icons/user.webp",
+  download: "/assets/nongcalljai/mascot-icons/download.webp",
+  home: "/assets/nongcalljai/mascot-icons/home.webp",
+  log: "/assets/nongcalljai/mascot-icons/log.webp",
+  warning: "/assets/nongcalljai/mascot-icons/warning.webp",
+  bot: "/assets/nongcalljai/mascot-icons/bot.webp",
+  happy: "/assets/nongcalljai/mascot-icons/happy.webp",
+  copy: "/assets/nongcalljai/mascot-icons/copy.webp",
+  eye: "/assets/nongcalljai/mascot-icons/eye.webp",
+  slider: "/assets/nongcalljai/mascot-icons/slider.webp",
+  send: "/assets/nongcalljai/mascot-icons/send.webp",
+  file: "/assets/nongcalljai/mascot-icons/file.webp",
+  pill: "/assets/nongcalljai/mascot-icons/pill.webp",
+  menu: "/assets/nongcalljai/mascot-icons/menu.webp",
+  qr: "/assets/nongcalljai/mascot-icons/qr.webp",
 };
 
 interface MascotIconProps {
@@ -144,10 +144,16 @@ export function MascotIcon({
       alt={alt}
       className={`inline-block shrink-0 object-contain ${className}`}
       style={{ width: size, height: size }}
-      loading="lazy"
-      whileHover={{ scale: 1.1, rotate: [-2, 2, 0], transition: { duration: 0.3 } }}
+      loading="eager"
+      decoding="async"
+      draggable={false}
+      whileHover={{ scale: 1.15, rotate: [-3, 3, -3, 0] }}
       whileTap={{ scale: 0.9 }}
-      layoutId={`mascot-icon-${variant}`}
+      transition={{ 
+        type: "spring", 
+        stiffness: 400, 
+        damping: 17
+      }}
     />
   );
 }

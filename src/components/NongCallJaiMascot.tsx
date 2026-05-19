@@ -54,7 +54,6 @@ export function NongCallJaiMascot({
         loading="lazy"
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        layoutId={compact ? undefined : "hero-main-mascot"}
       />
     </motion.div>
   );
